@@ -9,7 +9,7 @@ const db = mysql.createConnection(
       user: 'root',
       // Your MySQL password
       password: '1290BecomeEzdeveloper123',
-      database: 'Employee_Tracker'
+      database: 'employee_tracker'
     },
     console.log('Connected to the EMPLOYEE database.')
   );

@@ -1,8 +1,8 @@
 const inquirer = require('inquirer'); // import in quirer
 const cTable = require('console.table') // import required package 
-const db = require('./database/connection'); // import my database 
+const db = require('./database/connection.js'); // import my database 
 
-db.query('SELECT * FROM roleboi', (err, rows) => {
+db.query('SELECT * FROM department', (err, rows) => {
     console.log(rows)
 })
 
