@@ -63,22 +63,32 @@ const db = require('./database/connection.js'); // import my database
                     }
 
                 ]).then(answers=> {
-                    let firstName = 
-                    let lastName = 
-                    let role = 
-                    let Manager = 
-
-                    if(answers.employeeFirstName){
-                        db.query(`INSERT INTO employee (first_name) VALUES (${answers.employeeFirstName});`, (err, rows) => {
-                        
+                   if(answers.employeeFirstName && answers.employeeLastName && answers.emplyeeRole && answers.employeeManager){
+                        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${answers.employeeFirstName}, ${answers.employeeLastName}, ${answers.emplyeeRole}, ${answers.employeeManager});`, (err, rows) => {
+                            console.log(err);
+                            console.log('employee added!')
+                        initialList();
                         })
                     }
                 })
-            }
-    
-        // console.log('Answer:' + answers) // console log what user checkboxes
-        });
+            } else if (answers.myChoices === "add department"){
+                inquirer.prompt([
+                            {
+                                type: 'Input',
+                                name: 'addDepartment',
+                                message: "what is the department name?"
+        
+                            }
+                        ]).then(answers => {
+                            db.query(`INSER INTO department VALUE(${answers.addDepartment});`, (err,rows)=>{
+                                console.table(rows)
+                            })
+                        })
+                    }
+                })
+        
     }
+
    
 
 
