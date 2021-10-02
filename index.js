@@ -5,27 +5,39 @@ const db = require('./database/connection.js'); // import my database
 
 
     // can sucessfully query from table
-    db.query('SELECT * FROM employee;', (err, rows) => {
-        console.log(err);    
-    console.table(rows)})
+    // db.query('SELECT * FROM employee;', (err, rows) => {
+    //     console.log(err);    
+    // console.table(rows)})
 
 
-    prompt the user with questions NODE INDEX
-    inquirer.prompt([
-        {
-            type:'list',
-            name: 'myChoices',
-            message: 'What would you like to do?',
-            choices: ["View all employees", "View all employess by department", "View employess by manager", "add employee", "remove employee", "updated employee role", "update employee manager"],
-            default: 'View all employees'
-        }
-    ]).then(answers => {
-    console.log('Answer:' + answers) // console log what user checkboxes
-    });
+    // prompt the user with questions NODE INDEX
+    function initialList () {
+        return  inquirer.prompt([
+            {
+                type:'list',
+                name: 'myChoices',
+                message: 'What would you like to do?',
+                choices: ["View all employees", "View all employess by department", "View employess by manager", "add employee", "remove employee", "updated employee role", "update employee manager"],
+                default: 'View all employees'
+            }
+        ]).then(answers => {
+            // add a condititional if elses for their choices. 
+            if(answers.myChoices === 'View all employees') {
+                db.query('SELECT * FROM employee;', (err,rows) => {
+                    console.table(rows)
+                    // display the employees then return to the prompt function 
+                    initialList();
+                })
+            }
+    
+        console.log('Answer:' + answers) // console log what user checkboxes
+        });
+    }
+   
 
 
 
-
+initialList();
 
 
 
