@@ -1,8 +1,10 @@
 const inquirer = require('inquirer'); // import in quirer
 const cTable = require('console.table') // import required package for assignemnt never used before 
+const db = require('./database/connection'); // import my database 
 
 
 
+// prompt the user with questions NODE INDEX
 inquirer.prompt([
     {
         type:'checkbox',
@@ -12,5 +14,5 @@ inquirer.prompt([
         default: 'View all employees'
     }
 ]).then(answers => {
-console.log('Answer:' + answers)
+console.log('Answer:' + answers) // console log what user checkboxes
 });
