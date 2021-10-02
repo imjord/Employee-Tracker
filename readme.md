@@ -11,6 +11,10 @@
 
 # Video 
 
+
+https://watch.screencastify.com/v/8oAThIyYM9DNKdPi4OHq
+
+
 ![imageofterminal](./whereube.PNG)
 
 # W.I.P.
