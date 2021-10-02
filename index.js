@@ -12,6 +12,7 @@ const db = require('./database/connection.js'); // import my database
 
     // prompt the user with questions NODE INDEX
     function initialList () {
+        console.log('=====================================================Employee Tracker================================')
         return  inquirer.prompt([
             {
                 type:'list',

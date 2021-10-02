@@ -9,6 +9,9 @@
  
  * Uses node.js sql and inquirer
 
+# Video 
+
+![imageofterminal](./whereube.PNG)
 
 # W.I.P.
 
