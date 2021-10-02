@@ -31,8 +31,8 @@ CREATE TABLE employee (
     first_name VARCHAR(30) NOT NULL, -- string max 30 length not null cant accept null values 
     last_name VARCHAR(30) NOT NULL, 
     role_id INTEGER,
-    manager_id INTEGER,
-    CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id)
+    manager_id INTEGER
+    -- CONSTRAINT fk_role FOREIGN KEY (role_id) REFERENCES role(id)
 );
 
 
