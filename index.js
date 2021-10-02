@@ -17,7 +17,7 @@ const db = require('./database/connection.js'); // import my database
                 type:'list',
                 name: 'myChoices',
                 message: 'What would you like to do?',
-                choices: ["View all employees","view all departments", "view all roles", "View all employess by department", "View employess by manager", "add employee", "remove employee", "updated employee role", "update employee manager"],
+                choices: ["View all employees","view all departments", "view all roles",  "add employee", "add department", "add role"],
                 default: 'View all employees'
             }
         ]).then(answers => {
@@ -37,6 +37,42 @@ const db = require('./database/connection.js'); // import my database
                 db.query('SELECT * FROM role', (err, rows) => {
                     console.table(rows);
                     initialList();
+                })
+            } else if (answers.myChoices === "add employee") {
+                inquirer.prompt([
+                    {
+                        type: 'Input',
+                        name: 'employeeFirstName',
+                        message: "what is the employees first name?"
+
+                    },
+                    {
+                        type: 'Input',
+                        name: 'employeeLastName',
+                        message: "what is the employees last name?"
+                    },
+                    {
+                        type: 'Input',
+                        name: 'employeeRole',
+                        message: "what is the employees role?"
+                    },
+                    {
+                        type: 'Input',
+                        name: 'employeeManager',
+                        message: "what is the employees manager name?"
+                    }
+
+                ]).then(answers=> {
+                    let firstName = 
+                    let lastName = 
+                    let role = 
+                    let Manager = 
+
+                    if(answers.employeeFirstName){
+                        db.query(`INSERT INTO employee (first_name) VALUES (${answers.employeeFirstName});`, (err, rows) => {
+                        
+                        })
+                    }
                 })
             }
     
