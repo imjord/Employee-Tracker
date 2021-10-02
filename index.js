@@ -17,7 +17,7 @@ const db = require('./database/connection.js'); // import my database
                 type:'list',
                 name: 'myChoices',
                 message: 'What would you like to do?',
-                choices: ["View all employees", "View all employess by department", "View employess by manager", "add employee", "remove employee", "updated employee role", "update employee manager"],
+                choices: ["View all employees","view all departments", "view all roles", "View all employess by department", "View employess by manager", "add employee", "remove employee", "updated employee role", "update employee manager"],
                 default: 'View all employees'
             }
         ]).then(answers => {
@@ -28,9 +28,19 @@ const db = require('./database/connection.js'); // import my database
                     // display the employees then return to the prompt function 
                     initialList();
                 })
+            } else if (answers.myChoices === "view all departments"){
+                db.query('SELECT * FROM department;', (err, rows) => {
+                    console.table(rows);
+                    initialList();
+                })
+            } else if (answers.myChoices === "view all roles"){
+                db.query('SELECT * FROM role', (err, rows) => {
+                    console.table(rows);
+                    initialList();
+                })
             }
     
-        console.log('Answer:' + answers) // console log what user checkboxes
+        // console.log('Answer:' + answers) // console log what user checkboxes
         });
     }
    
