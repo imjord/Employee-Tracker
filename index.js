@@ -22,77 +22,96 @@ const db = require('./database/connection.js'); // import my database
                 default: 'View all employees'
             }
         ]).then(answers => {
-            // add a condititional if elses for their choices. 
-            if(answers.myChoices === 'View all employees') {
-                db.query('SELECT * FROM employee;', (err,rows) => {
-                    console.table(rows)
-                    // display the employees then return to the prompt function 
-                    initialList();
-                })
-            } else if (answers.myChoices === "view all departments"){
-                db.query('SELECT * FROM department;', (err, rows) => {
-                    console.table(rows);
-                    initialList();
-                })
-            } else if (answers.myChoices === "view all roles"){
-                db.query('SELECT * FROM role', (err, rows) => {
-                    console.table(rows);
-                    initialList();
-                })
-            } else if (answers.myChoices === "add employee") {
-                inquirer.prompt([
-                    {
-                        type: 'Input',
-                        name: 'employeeFirstName',
-                        message: "what is the employees first name?"
-
-                    },
-                    {
-                        type: 'Input',
-                        name: 'employeeLastName',
-                        message: "what is the employees last name?"
-                    },
-                    {
-                        type: 'Input',
-                        name: 'employeeRole',
-                        message: "what is the employees role?"
-                    },
-                    {
-                        type: 'Input',
-                        name: 'employeeManager',
-                        message: "what is the employees manager name?"
-                    }
-
-                ]).then(answers=> {
-                   if(answers.employeeFirstName && answers.employeeLastName && answers.emplyeeRole && answers.employeeManager){
-                        db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES (${answers.employeeFirstName}, ${answers.employeeLastName}, ${answers.emplyeeRole}, ${answers.employeeManager});`, (err, rows) => {
-                            console.log(err);
-                            console.log('employee added!')
-                        initialList();
+                    // add a condititional if elses for their choices. 
+                    if(answers.myChoices === 'View all employees') {
+                        db.query('SELECT * FROM employee', (err,rows) => {
+                            console.table(rows)
+                            // display the employees then return to the prompt function 
+                            initialList();
                         })
-                    }
-                })
-            } else if (answers.myChoices === "add department"){
-                inquirer.prompt([
+                    } else if (answers.myChoices === "view all departments"){
+                        db.query('SELECT * FROM department', (err, rows) => {
+                            console.table(rows);
+                            initialList();
+                        })
+                    } else if (answers.myChoices === "view all roles"){
+                        db.query('SELECT * FROM role', (err, rows) => {
+                            console.table(rows);
+                            initialList();
+                        })
+                    } else if (answers.myChoices === "add employee") {
+                        inquirer.prompt([
                             {
                                 type: 'Input',
-                                name: 'addDepartment',
-                                message: "what is the department name?"
-        
+                                name: 'employeeFirstName',
+                                message: "what is the employees first name?"
+
+                            },
+                            {
+                                type: 'Input',
+                                name: 'employeeLastName',
+                                message: "what is the employees last name?"
+                            },
+                            {
+                                type: 'Input',
+                                name: 'employeeRole',
+                                message: "what is the employees role?"
+                            },
+                            {
+                                type: 'Input',
+                                name: 'employeeManager',
+                                message: "what is the employees manager name?"
                             }
-                        ]).then(answers => {
-                            db.query(`INSER INTO department VALUE(${answers.addDepartment});`, (err,rows)=>{
-                                console.table(rows)
-                            })
+
+                        ]).then(answers=> {
+                        if(answers.employeeFirstName && answers.employeeLastName && answers.emplyeeRole && answers.employeeManager){
+                                console.log(answers.employeeFirstName, answers.employeeLastName, answers.employeeRole, answers.employeeManager);
+                                db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES 
+                                ('${answers.employeeFirstName}', '${answers.employeeLastName}', '${answers.employeeRole}', '${answers.employeeManager}')`, (err, rows) => {
+                                    console.log(err);
+                                    console.log(rows);
+                                    console.log('employee added');
+                                })
+                            }
                         })
-                    }
-                })
+                        } else if (answers.myChoices === "add department"){
+                        inquirer.prompt([
+                                    {
+                                        type: 'Input',
+                                        name: 'addDepartment',
+                                        message: "what is the department name?"
+                
+                                    }
+                                ]).then(answers => {
+                                    db.query(`INSERT INTO department VALUES (?)`,[answers.addDepartment], (err,rows)=>{
+                                        console.table(rows)
+                                    })
+                                })
+                            } else if(answers.myChoices == 'add role') {
+                                inquirer.prompt([
+                                    {
+                                        type: 'Input',
+                                        name: 'addRole',
+                                        message: "what is the role name?"
+                                    },
+                                ]).then(answers => {
+                                    db.query(`INSERT INTO role VALUES (?)`,[answers.addRole], (err,rows)=>{
+                                        console.table(rows)
+                                    })
+                                })   
+
+
+                            }
+
+                }) 
         
     }
 
    
 
-
+function gothere(){
+    console.log('working here!')
+}
 
 initialList();
 
