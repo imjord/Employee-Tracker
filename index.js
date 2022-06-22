@@ -18,7 +18,7 @@ const db = require('./database/connection.js'); // import my database
                 type:'list',
                 name: 'myChoices',
                 message: 'What would you like to do?',
-                choices: ["View all employees","view all departments", "view all roles",  "add employee", "add department", "add role"],
+                choices: ["View all employees","view all departments", "view all roles",  "add employee", "add department", "add role", "Exit"],
                 default: 'View all employees'
             }
         ]).then(answers => {
@@ -27,17 +27,17 @@ const db = require('./database/connection.js'); // import my database
                         db.query('SELECT * FROM employee', (err,rows) => {
                             console.table(rows)
                             // display the employees then return to the prompt function 
-                            initialList();
+                            timer();
                         })
                     } else if (answers.myChoices === "view all departments"){
                         db.query('SELECT * FROM department', (err, rows) => {
                             console.table(rows);
-                            initialList();
+                            timer();
                         })
                     } else if (answers.myChoices === "view all roles"){
                         db.query('SELECT * FROM role', (err, rows) => {
                             console.table(rows);
-                            initialList();
+                            timer();
                         })
                     } else if (answers.myChoices === "add employee") {
                         inquirer.prompt([
@@ -55,24 +55,21 @@ const db = require('./database/connection.js'); // import my database
                             {
                                 type: 'Input',
                                 name: 'employeeRole',
-                                message: "what is the employees role?"
+                                message: "what is the employee id?"
                             },
                             {
                                 type: 'Input',
                                 name: 'employeeManager',
-                                message: "what is the employees manager name?"
+                                message: "what is the employees manager id?"
                             }
 
                         ]).then(answers=> {
-                        if(answers.employeeFirstName && answers.employeeLastName && answers.emplyeeRole && answers.employeeManager){
-                                console.log(answers.employeeFirstName, answers.employeeLastName, answers.employeeRole, answers.employeeManager);
-                                db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES 
-                                ('${answers.employeeFirstName}', '${answers.employeeLastName}', '${answers.employeeRole}', '${answers.employeeManager}')`, (err, rows) => {
-                                    console.log(err);
-                                    console.log(rows);
-                                    console.log('employee added');
-                                })
+                            db.query(`INSERT INTO employee (first_name, last_name, role_id, manager_id) VALUES ('${answers.employeeFirstName}', '${answers.employeeLastName}', '${answers.employeeRole}', '${answers.employeeManager}')`, (err, rows) => {
+                                if(err) throw err;
+                                console.log("employee added");
+                                timer();
                             }
+                )
                         })
                         } else if (answers.myChoices === "add department"){
                         inquirer.prompt([
@@ -83,9 +80,14 @@ const db = require('./database/connection.js'); // import my database
                 
                                     }
                                 ]).then(answers => {
-                                    db.query(`INSERT INTO department VALUES (?)`,[answers.addDepartment], (err,rows)=>{
-                                        console.table(rows)
+                                    db.query(`INSERT INTO department (name) VALUES ("${answers.addDepartment}")`, (err, rows) => {
+                                        if(err) throw err;
+                                        console.log("department added");
+                                        timer();
                                     })
+                                    // db.query(`INSERT INTO department() VALUES (?)`,[answers.addDepartment], (err,rows)=>{
+                                    //     console.table(rows)
+                                    // })
                                 })
                             } else if(answers.myChoices == 'add role') {
                                 inquirer.prompt([
@@ -94,13 +96,29 @@ const db = require('./database/connection.js'); // import my database
                                         name: 'addRole',
                                         message: "what is the role name?"
                                     },
+                                    {
+                                        type: 'Input',
+                                        name: 'addSalary',
+                                        message: "what is the role salary?"
+                                    },
+                                    {
+                                        type: 'Input',
+                                        name: 'addDepartment',
+                                        message: "what is the role department id? if no department, leave 1 default role please" 
+                                    },
                                 ]).then(answers => {
-                                    db.query(`INSERT INTO role VALUES (?)`,[answers.addRole], (err,rows)=>{
-                                        console.table(rows)
+                                   
+                                    db.query(`INSERT INTO role (title, salary, department_id) VALUES ("${answers.addRole}", "${answers.addSalary}", "${answers.addDepartment}")`, (err, rows) => {
+                                        if(err) throw err;
+                                        console.log("role added");
+                                        timer();
                                     })
                                 })   
 
 
+                            } else {
+                                console.log("Thank you for using the employee tracker");
+                                process.exit();
                             }
 
                 }) 
@@ -109,8 +127,10 @@ const db = require('./database/connection.js'); // import my database
 
    
 
-function gothere(){
-    console.log('working here!')
+function timer(){
+    setTimeout(()=>{
+        initialList();
+    }, 2000)
 }
 
 initialList();
